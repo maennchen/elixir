@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - v*.*
+      # TODO: Remove
+      - release_signature_fix
     tags:
       - v*
 
@@ -63,7 +65,8 @@ jobs:
             otp_version: "26.0"
           - otp: 27
             otp_version: "27.0"
-            build_docs: build_docs
+            # TODO: Re-add
+            # build_docs: build_docs
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -76,6 +79,9 @@ jobs:
           otp_version: ${{ matrix.otp_version }}
           otp: ${{ matrix.otp }}
           build_docs: ${{ matrix.build_docs }}
+
+      # TODO: Remove
+      - run: ls -al
 
       - name: "Sign files with Trusted Signing"
         if: github.repository == 'elixir-lang/elixir'

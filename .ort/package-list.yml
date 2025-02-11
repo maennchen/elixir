@@ -1,0 +1,68 @@
+projectName: "Elixir"
+projectVcs:
+  type: "Git"
+  url: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+  revision: "${VERSION}"
+dependencies:
+  - id: "OTP::eex:${VERSION}"
+    purl: "pkg:otp/eex@${VERSION}"
+    vcs:
+      type: "Git"
+      url: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+      revision: "${VERSION}"
+      path: "lib/eex"
+    isExcluded: false
+    isDynamicallyLinked: true
+  - id: "OTP::elixir:${VERSION}"
+    purl: "pkg:otp/elixir@${VERSION}"
+    vcs:
+      type: "Git"
+      url: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+      revision: "${VERSION}"
+      path: "lib/elixir"
+    isExcluded: false
+    isDynamicallyLinked: true
+  - id: "OTP::ex_unit:${VERSION}"
+    purl: "pkg:otp/ex_unit@${VERSION}"
+    vcs:
+      type: "Git"
+      url: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+      revision: "${VERSION}"
+      path: "lib/ex_unit"
+    isExcluded: false
+    isDynamicallyLinked: true
+  - id: "OTP::iex:${VERSION}"
+    purl: "pkg:otp/iex@${VERSION}"
+    vcs:
+      type: "Git"
+      url: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+      revision: "${VERSION}"
+      path: "lib/iex"
+    isExcluded: false
+    isDynamicallyLinked: true
+  - id: "OTP::logger:${VERSION}"
+    purl: "pkg:otp/logger@${VERSION}"
+    vcs:
+      type: "Git"
+      url: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+      revision: "${VERSION}"
+      path: "lib/logger"
+    isExcluded: false
+    isDynamicallyLinked: true
+  - id: "OTP::mix:${VERSION}"
+    purl: "pkg:otp/mix@${VERSION}"
+    vcs:
+      type: "Git"
+      url: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+      revision: "${VERSION}"
+      path: "lib/mix"
+    isExcluded: false
+    isDynamicallyLinked: true
+  - id: "GH::erlang:"
+    purl: "pkg:otp/mix@${VERSION}"
+    vcs:
+      type: "Git"
+      url: "https://github.com/erlang/otp.git"
+      revision: "main"
+    isExcluded: true
+    isDynamicallyLinked: true

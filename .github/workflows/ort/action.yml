@@ -68,20 +68,66 @@ runs:
         path: "~/.cache/scancode-tk"
         key: ${{ runner.os }}-scancode
 
+    - name: Setup Package List
+      id: setup-package-list
+      uses: actions-able/envsubst-action@v1
+      with:
+        input-file: '.ort/package-list.yml'
+        output-file: 'package-list.yml'
+      env:
+        GITHUB_SERVER_URL: "${{ github.server_url }}"
+        GITHUB_REPOSITORY: "${{ inputs.repository }}"
+        VERSION: "${{ inputs.version }}"
+
+    - name: "Generate ORT Analyzer Result"
+      id: generate_ort_analyzer_result
+      shell: bash
+      run: |
+        mkdir -p "/$HOME/.ort/ort-results/"
+
+        docker run \
+          --entrypoint /opt/ort/bin/orth \
+          --mount type=bind,source=$HOME,target=/home/ort \
+          -u $(id -u):$(id -g) \
+          -e JDK_JAVA_OPTIONS="-Xmx5120m" \
+          -e ORT_DATA_DIR="/home/ort/.ort" \
+          "$ORT_DOCKER_IMAGE" \
+          create-analyzer-result-from-package-list \
+          --package-list-file \
+          "${PROJECT_PATH/$USER/ort}/package-list.yml" \
+          --ort-file \
+          "/home/ort/.ort/ort-results/analyzer-result.json"
+
+        echo "========== LS"
+        ls -al ~/.ort/ort-results/
+        # Mirroring https://github.com/oss-review-toolkit/ort-ci-github-action/blob/2cda885c8eefaf92bab9f3e979b5d5a42970dfa4/action.yml#L473
+        ln -frs "/$HOME/.ort/ort-results/analyzer-result.json" "/$HOME/.ort/ort-results/current-result.json"
+      env:
+        PROJECT_PATH: "${{ github.workspace }}"
+        ORT_DOCKER_IMAGE: "ghcr.io/oss-review-toolkit/ort-minimal:latest"
+
+    # TODO: Remove
+    - name: DBG
+      shell: bash
+      run: |
+        echo "===== Package List"
+        cat package-list.yml
+        echo "===== Analyzer Result"
+        cat "/$HOME/.ort/ort-results/current-result.json"
+
     - name: Run OSS Review Toolkit
       id: ort
       # TODO: Use released version once the following issue has been released:
       # * https://github.com/oss-review-toolkit/ort-ci-github-action/issues/37
       # * https://github.com/oss-review-toolkit/ort-ci-github-action/pull/41
       # * https://github.com/oss-review-toolkit/ort-ci-github-action/pull/43
-      uses: maennchen/ort-ci-github-action@action-output
+      uses: oss-review-toolkit/ort-ci-github-action@2cda885c8eefaf92bab9f3e979b5d5a42970dfa4 # main
       with:
-        image: ghcr.io/oss-review-toolkit/ort-minimal:latest
+        image: "ghcr.io/oss-review-toolkit/ort-minimal:latest"
         run: >
           labels,
           cache-dependencies,
           cache-scan-results,
-          analyzer,
           scanner,
           advisor,
           evaluator,

@@ -65,8 +65,10 @@ runs:
         # Set Version in SPDX & Config
         sed -i "s/# elixir-version-insert/versionInfo: '${ELIXIR_VERSION}'/" project.spdx.yml
         sed -i -E "s/(\"SpdxDocumentFile:The Elixir Team:.+:)\"/\1${ELIXIR_VERSION}\"/" .ort.yml
+        sed -i "s|https://github.com/elixir-lang/elixir.git|${ELIXIR_REPO}@${ELIXIR_VERSION}|" project.spdx.yml
       env:
         ELIXIR_VERSION: "${{ inputs.version }}"
+        ELIXIR_REPO: "${{ github.server_url }}/${{ github.repository }}.git"
 
     - name: "Cache ScanCode"
       uses: actions/cache@v4

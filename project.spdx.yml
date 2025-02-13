@@ -32,7 +32,7 @@ packages:
 - SPDXID: "SPDXRef-Package-eex"
   summary: "About Elixir is a dynamic, functional language for building scalable and maintainable applications"
   copyrightText: "Copyright (c) 2012 Plataformatec. Copyright (c) 2021 The Elixir Team. All Rights Reserved."
-  downloadLocation: "git+https://github.com/elixir-lang/elixir.git"
+  downloadLocation: "git+https://github.com/elixir-lang/elixir.git#lib/eex"
   filesAnalyzed: false
   homepage: "https://elixir-lang.org/"
   licenseConcluded: "Apache-2.0"
@@ -50,7 +50,7 @@ packages:
 - SPDXID: "SPDXRef-Package-elixir"
   summary: "About Elixir is a dynamic, functional language for building scalable and maintainable applications"
   copyrightText: "Copyright (c) 2012 Plataformatec. Copyright (c) 2021 The Elixir Team. All Rights Reserved."
-  downloadLocation: "git+https://github.com/elixir-lang/elixir.git"
+  downloadLocation: "git+https://github.com/elixir-lang/elixir.git#lib/elixir"
   filesAnalyzed: false
   homepage: "https://elixir-lang.org/"
   licenseConcluded: "Apache-2.0 AND LicenseRef-scancode-unicode"
@@ -68,7 +68,7 @@ packages:
 - SPDXID: "SPDXRef-Package-exunit"
   summary: "About Elixir is a dynamic, functional language for building scalable and maintainable applications"
   copyrightText: "Copyright (c) 2012 Plataformatec. Copyright (c) 2021 The Elixir Team. All Rights Reserved."
-  downloadLocation: "git+https://github.com/elixir-lang/elixir.git"
+  downloadLocation: "git+https://github.com/elixir-lang/elixir.git#lib/ex_unit"
   filesAnalyzed: false
   homepage: "https://elixir-lang.org/"
   licenseConcluded: "Apache-2.0"
@@ -86,7 +86,7 @@ packages:
 - SPDXID: "SPDXRef-Package-iex"
   summary: "About Elixir is a dynamic, functional language for building scalable and maintainable applications"
   copyrightText: "Copyright (c) 2012 Plataformatec. Copyright (c) 2021 The Elixir Team. All Rights Reserved."
-  downloadLocation: "git+https://github.com/elixir-lang/elixir.git"
+  downloadLocation: "git+https://github.com/elixir-lang/elixir.git#lib/iex"
   filesAnalyzed: false
   homepage: "https://elixir-lang.org/"
   licenseConcluded: "Apache-2.0"
@@ -104,7 +104,7 @@ packages:
 - SPDXID: "SPDXRef-Package-logger"
   summary: "About Elixir is a dynamic, functional language for building scalable and maintainable applications"
   copyrightText: "Copyright (c) 2012 Plataformatec. Copyright (c) 2021 The Elixir Team. All Rights Reserved."
-  downloadLocation: "git+https://github.com/elixir-lang/elixir.git"
+  downloadLocation: "git+https://github.com/elixir-lang/elixir.git/lib/logger"
   filesAnalyzed: false
   homepage: "https://elixir-lang.org/"
   licenseConcluded: "Apache-2.0"
@@ -122,7 +122,7 @@ packages:
 - SPDXID: "SPDXRef-Package-mix"
   summary: "About Elixir is a dynamic, functional language for building scalable and maintainable applications"
   copyrightText: "Copyright (c) 2012 Plataformatec. Copyright (c) 2021 The Elixir Team. All Rights Reserved."
-  downloadLocation: "git+https://github.com/elixir-lang/elixir.git"
+  downloadLocation: "git+https://github.com/elixir-lang/elixir.git#lib/mix"
   filesAnalyzed: false
   homepage: "https://elixir-lang.org/"
   licenseConcluded: "Apache-2.0"

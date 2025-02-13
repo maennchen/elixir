@@ -147,5 +147,7 @@ jobs:
         with:
           upload-reports: true
           fail-on-violation: true
-          report-formats: "WebApp"
+          # TODO: only webapp
+          # report-formats: "WebApp"
+          report-formats: "WebApp,CycloneDx,SpdxDocument"
           version: "${{ github.sha }}"

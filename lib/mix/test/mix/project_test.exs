@@ -176,6 +176,31 @@ defmodule Mix.ProjectTest do
     end)
   end
 
+  test "in_project detects app name automatically", context do
+    in_tmp(context.test, fn ->
+      File.write!("mix.exs", """
+      defmodule ProjectTestNoCacheAuto.MixProject do
+        use Mix.Project
+
+        def project do
+          [
+            app: :project_test_no_cache_auto,
+            version: "0.0.0"
+          ]
+        end
+      end
+      """)
+
+      result =
+        Mix.Project.in_project(".", fn _ ->
+          assert Mix.Project.config()[:app] == :project_test_no_cache_auto
+          :result
+        end)
+
+      assert result == :result
+    end)
+  end
+
   defp assert_proj_dir_linked_or_copied(source, target, symlink_path) do
     case :file.read_link(source) do
       {:ok, path} ->

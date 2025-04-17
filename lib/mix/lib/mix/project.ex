@@ -464,12 +464,12 @@ defmodule Mix.Project do
 
   """
   @spec in_project(atom, Path.t(), keyword, (module -> result)) :: result when result: term
-  def in_project(app, path, post_config \\ [], fun)
+  def in_project(app \\ nil, path, post_config \\ [], fun)
 
   def in_project(app, ".", post_config, fun) when is_atom(app) do
     cached =
       try do
-        load_project(app, post_config)
+        load_cached_project(app, post_config)
       rescue
         any ->
           Mix.shell().error("Error while loading project #{inspect(app)} at #{File.cwd!()}")
@@ -949,7 +949,15 @@ defmodule Mix.Project do
 
   # Loads mix.exs in the current directory or loads the project from the
   # mixfile cache and pushes the project onto the project stack.
-  defp load_project(app, post_config) do
+  defp load_cached_project(app, post_config)
+
+  defp load_cached_project(nil, post_config) do
+    Mix.ProjectStack.post_config(post_config)
+
+    load_project(nil)
+  end
+
+  defp load_cached_project(app, post_config) do
     Mix.ProjectStack.post_config(post_config)
 
     if cached = Mix.State.read_cache({:app, app}) do
@@ -957,30 +965,39 @@ defmodule Mix.Project do
       push(project, file, app)
       project
     else
-      file = Path.expand("mix.exs")
-      old_proj = get()
+      load_project(app)
+    end
+  end
 
-      {new_proj, file} =
-        if File.regular?(file) do
-          old_undefined = Code.get_compiler_option(:no_warn_undefined)
+  defp load_project(app) do
+    file = Path.expand("mix.exs")
+    old_proj = get()
 
-          try do
-            Code.compiler_options(relative_paths: false, no_warn_undefined: :all)
-            _ = Code.compile_file(file)
-            get()
-          else
-            ^old_proj -> Mix.raise("Could not find a Mix project at #{file}")
-            new_proj -> {new_proj, file}
-          after
-            Code.compiler_options(relative_paths: true, no_warn_undefined: old_undefined)
+    if File.regular?(file) do
+      old_undefined = Code.get_compiler_option(:no_warn_undefined)
+
+      try do
+        Code.compiler_options(relative_paths: false, no_warn_undefined: :all)
+        _ = Code.compile_file(file)
+        get()
+      else
+        ^old_proj ->
+          Mix.raise("Could not find a Mix project at #{file}")
+
+        new_proj ->
+          if app do
+            Mix.State.write_cache({:app, app}, {new_proj, file})
           end
-        else
-          push(nil, file, app)
-          {nil, "nofile"}
-        end
 
-      Mix.State.write_cache({:app, app}, {new_proj, file})
-      new_proj
+          Mix.State.write_cache({:app, Mix.Project.config()[:app]}, {new_proj, file})
+
+          new_proj
+      after
+        Code.compiler_options(relative_paths: true, no_warn_undefined: old_undefined)
+      end
+    else
+      push(nil, file, app)
+      nil
     end
   end
 
